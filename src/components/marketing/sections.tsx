@@ -269,11 +269,25 @@ export function CategoriesSection({ categories }: { categories?: Category[] }) {
 export function PublishingPlansSection() {
   const plans = [
     {
+      name: "Starter",
+      price: "₹5",
+      period: "per app",
+      highlight: false,
+      badge: "🎁 Try Now",
+      cta: "Start for ₹5",
+      features: [
+        "Standard listing",
+        "24–72h review time",
+        "App analytics",
+        "Community support",
+        "Unlimited updates",
+      ],
+    },
+    {
       name: "Standard",
       price: "₹99",
       period: "per app",
       highlight: true,
-      active: true,
       badge: "Popular",
       cta: "Publish for ₹99",
       features: [
@@ -289,12 +303,11 @@ export function PublishingPlansSection() {
       price: "₹199",
       period: "per app",
       highlight: false,
-      active: true,
       badge: "⭐ Recommended",
       cta: "Featured for ₹199",
       features: [
-        "Homepage featured slot",
-        "6–12h review time",
+        "Homepage featured placement",
+        "6–12h review priority",
         "Premium analytics",
         "Dedicated support",
         "Badge on listing",
@@ -305,7 +318,7 @@ export function PublishingPlansSection() {
   return (
     <section className="section-container py-20">
       <SectionHeader title="Simple, Affordable Pricing" subtitle="Publish your app and reach thousands of users" />
-      <div className="grid gap-8 max-w-2xl mx-auto sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-3">
         {plans.map((plan, i) => (
           <motion.div
             key={plan.name}
@@ -321,24 +334,24 @@ export function PublishingPlansSection() {
           >
             {plan.badge && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className={`rounded-full px-4 py-1 text-xs font-bold ${
-                  plan.highlight ? "bg-primary text-night-900" : "bg-secondary-800 text-secondary-200 border border-white/10"
+                <span className={`rounded-full px-4 py-1 text-xs font-bold whitespace-nowrap ${
+                  plan.highlight
+                    ? "bg-primary text-night-900"
+                    : "bg-secondary-800 text-secondary-200 border border-white/10"
                 }`}>
                   {plan.badge}
                 </span>
               </div>
             )}
-            <h3 className="font-heading text-lg font-bold">{plan.name}</h3>
+            <h3 className="mt-1 font-heading text-lg font-bold">{plan.name}</h3>
             <div className="mt-2 flex items-baseline gap-1">
-              <span className="font-heading text-4xl font-bold text-primary">
-                {plan.price}
-              </span>
+              <span className="font-heading text-4xl font-bold text-primary">{plan.price}</span>
               <span className="text-sm text-secondary-400">{plan.period}</span>
             </div>
-            <ul className="my-6 space-y-2.5">
+            <ul className="my-5 space-y-2.5">
               {plan.features.map((f) => (
-                <li key={f} className="flex items-center gap-2 text-sm text-secondary-300">
-                  <span className="text-primary font-bold">✓</span> {f}
+                <li key={f} className="flex items-start gap-2 text-sm text-secondary-300">
+                  <span className="mt-0.5 text-primary font-bold shrink-0">✓</span> {f}
                 </li>
               ))}
             </ul>
