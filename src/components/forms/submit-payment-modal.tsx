@@ -15,7 +15,7 @@ interface SubmitPaymentModalProps {
   onClose: () => void;
   userId: string;
   onFinalSubmit: (payload: {
-    plan: "basic" | "featured";
+    plan: "starter" | "basic" | "featured";
     amountPaise: number;
     screenshotUrl: string;
   }) => Promise<void>;
@@ -24,7 +24,7 @@ interface SubmitPaymentModalProps {
 }
 
 interface Plan {
-  id: "basic" | "featured";
+  id: "starter" | "basic" | "featured";
   name: string;
   priceNumber: number;
   displayPrice: string;
@@ -56,6 +56,16 @@ export function SubmitPaymentModal({
   if (!isOpen) return null;
 
   const plans: Plan[] = [
+    {
+      id: "basic",
+      name: "Starter",
+      priceNumber: 5,
+      displayPrice: "₹5",
+      badge: "🎁 Try Now",
+      icon: <Star className="h-5 w-5" />,
+      features: ["Standard listing", "24–72h review", "App analytics", "Community support"],
+      highlight: false,
+    },
     {
       id: "basic",
       name: "Standard",

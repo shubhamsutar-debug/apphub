@@ -193,7 +193,7 @@ export function AppSubmissionForm({ categories, isAdmin = false }: AppSubmission
   const [validationError, setValidationError] = useState("");
 
   // Submitted plan payload values
-  const [chosenPlan, setChosenPlan] = useState<"basic" | "featured">("basic");
+  const [chosenPlan, setChosenPlan] = useState<"basic" | "featured" | "starter">("basic");
   const [chosenAmountPaise, setChosenAmountPaise] = useState(9900);
   const [paymentScreenshotUrl, setPaymentScreenshotUrl] = useState("");
 
@@ -314,7 +314,7 @@ export function AppSubmissionForm({ categories, isAdmin = false }: AppSubmission
 
   // Called when developer completes modal (Step 3 -> Step 4)
   const handleFinalSubmitFromModal = async (payload: {
-    plan: "basic" | "featured";
+    plan: "basic" | "featured" | "starter";
     amountPaise: number;
     screenshotUrl: string;
   }) => {
