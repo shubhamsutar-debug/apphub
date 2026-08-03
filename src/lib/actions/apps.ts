@@ -419,11 +419,23 @@ export async function deleteAppAction(appId: string): Promise<AppActionState> {
   const user = await getCurrentUser();
   if (!user) return { error: "Not authenticated" };
 
+  // Use adminClient to bypass RLS on delete
+  const adminClient = createAdminClient();
+
+  // Verify ownership before deleting
   const supabase = await createClient();
-  const { error } = await supabase
-    .from("applications")
-    .delete()
-    .eq("id", appId);
+  const { data: dev } = await supabase.from("developers").select("id").eq("user_id", user.id).single();
+
+  if (!dev && user.profile.role !== "admin") return { error: "Not authorized" };
+
+  // Delete related records first
+  await adminClient.from("application_versions").delete().eq("application_id", appId);
+  await adminClient.from("application_screenshots").delete().eq("application_id", appId);
+  await adminClient.from("reviews").delete().eq("application_id", appId);
+  await adminClient.from("favorites").delete().eq("application_id", appId);
+  await adminClient.from("downloads").delete().eq("application_id", appId);
+
+  const { error } = await adminClient.from("applications").delete().eq("id", appId);
 
   if (error) return { error: error.message };
 
