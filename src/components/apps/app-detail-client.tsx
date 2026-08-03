@@ -153,7 +153,7 @@ export function AppDetailClient({
               <span className="sm:hidden">{favorited ? "Saved" : "Save"}</span>
             </Button>
           ) : (
-            <a href="/login" className="flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 text-sm font-medium text-secondary-300 hover:border-primary/30">
+            <a href="/login" className="btn-secondary flex items-center justify-center gap-1.5 text-sm">
               <Heart className="h-4 w-4" />
               <span>Save</span>
             </a>

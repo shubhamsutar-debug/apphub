@@ -192,10 +192,7 @@ export function AppSubmissionForm({ categories, isAdmin = false }: AppSubmission
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [validationError, setValidationError] = useState("");
 
-  // Submitted plan payload values
-  const [chosenPlan, setChosenPlan] = useState<"basic" | "featured" | "starter">("basic");
-  const [chosenAmountPaise, setChosenAmountPaise] = useState(9900);
-  const [paymentScreenshotUrl, setPaymentScreenshotUrl] = useState("");
+  // Submitted plan payload values (set via formData in handleFinalSubmitFromModal)
 
   // File upload state
   const [apkUrl, setApkUrl] = useState("");
@@ -342,9 +339,9 @@ export function AppSubmissionForm({ categories, isAdmin = false }: AppSubmission
         <input type="hidden" name="icon_url" value={iconUrl} />
         <input type="hidden" name="banner_url" value={bannerUrl} />
         <input type="hidden" name="screenshots" value={JSON.stringify(screenshots.map((s) => s.url))} />
-        <input type="hidden" name="publishing_plan" value={chosenPlan} />
-        <input type="hidden" name="payment_amount_paise" value={chosenAmountPaise} />
-        <input type="hidden" name="payment_screenshot_url" value={paymentScreenshotUrl} />
+        <input type="hidden" name="publishing_plan" value="basic" />
+        <input type="hidden" name="payment_amount_paise" value="9900" />
+        <input type="hidden" name="payment_screenshot_url" value="" />
 
         {(state.error || validationError) && (
           <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">

@@ -24,7 +24,7 @@ function getKey(raw: string | undefined): string {
         return CORRECT_SERVICE_KEY;
       }
     }
-  } catch (e) {
+  } catch {
     // Ignore decode errors
   }
 

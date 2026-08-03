@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -49,10 +49,12 @@ export function SubmitPaymentModal({
 }: SubmitPaymentModalProps) {
   const [step, setStep] = useState<"select" | "pay" | "upload" | "done">("select");
 
-  // When server action returns success, advance to done step
-  if (submitSuccess && step !== "done") {
-    setStep("done");
-  }
+  // When server action returns success, advance to done step (must be in useEffect, not render body)
+  useEffect(() => {
+    if (submitSuccess && step !== "done") {
+      setStep("done");
+    }
+  }, [submitSuccess, step]);
   const [selectedPlanId, setSelectedPlanId] = useState<Plan["id"]>("basic");
   const [copied, setCopied] = useState(false);
   const [screenshotUrl, setScreenshotUrl] = useState("");
@@ -134,7 +136,7 @@ export function SubmitPaymentModal({
       amountPaise,
       screenshotUrl,
     });
-    setStep("done");
+    // Note: step is advanced to "done" via useEffect watching submitSuccess
   };
 
   return (

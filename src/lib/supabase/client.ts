@@ -30,7 +30,7 @@ function getKey(raw: string | undefined): string {
         return CORRECT_KEY;
       }
     }
-  } catch (e) {
+  } catch {
     // Ignore decode errors
   }
 

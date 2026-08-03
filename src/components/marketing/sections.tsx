@@ -58,9 +58,9 @@ const TESTIMONIALS = [
 
 const FAQS = [
   { q: "How do I publish my app on AppHub?",
-    a: "Sign up, choose a publishing plan (starting at ₹1 for first-timers!), become a developer, fill the submission form, upload your APK + screenshots, and submit for review. We typically review within 24–48 hours." },
+    a: "Sign up, choose a publishing plan (starting at ₹5 for the Starter plan), become a developer, fill the submission form, upload your APK + screenshots, and submit for review. We typically review within 24–48 hours." },
   { q: "What are the publishing plans and prices?",
-    a: "Currently we have a ₹1 Trial plan — publish your app for just ₹1. Priority (₹299) and Featured (₹999) plans are coming soon." },
+    a: "We have three plans: Starter (₹5/app), Standard (₹99/app), and Featured (₹199/app). Starter is the most affordable way to list your first app!" },
   { q: "Is AppHub safe to download apps from?",
     a: "Yes! Every app is manually reviewed before listing. We check for malware, privacy violations, and policy compliance." },
   { q: "What file formats are supported for APK uploads?",
@@ -442,7 +442,7 @@ export function CTASection() {
             Ready to reach thousands of users?
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-secondary-400">
-            Join hundreds of developers already publishing on AppHub. First app just ₹1!
+            Join hundreds of developers already publishing on AppHub. Start from just ₹5!
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/submit-app"><Button size="lg">Publish Your App</Button></Link>
