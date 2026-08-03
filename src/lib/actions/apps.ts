@@ -88,7 +88,8 @@ export async function submitAppAction(
     privacy_policy_url: parsed.data.privacy_policy_url || null,
     support_email: parsed.data.support_email || null,
     tags: tagsArray,
-    publishing_plan: parsed.data.publishing_plan,
+    // Map "starter" to "basic" for DB ENUM (applications table uses publishing_plan ENUM)
+    publishing_plan: (parsed.data.publishing_plan === "starter" ? "basic" : parsed.data.publishing_plan) as "basic" | "priority" | "featured",
     package_name: formData.get("package_name")?.toString() || null,
     icon_url: iconUrl,
     banner_url: bannerUrl,
@@ -150,22 +151,25 @@ export async function submitAppAction(
     const chosenPlan = parsed.data.publishing_plan || "basic";
 
     const defaultPlanPrices: Record<string, number> = {
-      starter: 100,
+      starter: 500,   // ₹5
       basic: 9900,
       priority: 19900,
       featured: 19900,
     };
     const amountPaise = rawAmountPaise || defaultPlanPrices[chosenPlan] || 9900;
 
+    // Map "starter" to "basic" for DB ENUM compatibility
+    const dbPlan = chosenPlan === "starter" ? "basic" : chosenPlan;
+
     await adminClient.from("payments").insert({
       user_id: user.id,
       application_id: app.id,
-      plan: chosenPlan,
+      plan: dbPlan,
       amount_paise: amountPaise,
       status: "pending",
       metadata: paymentScreenshotUrl
-        ? { screenshot_url: paymentScreenshotUrl, manual_payment: true, amount_rupees: amountPaise / 100 }
-        : null,
+        ? { screenshot_url: paymentScreenshotUrl, manual_payment: true, amount_rupees: amountPaise / 100, original_plan: chosenPlan }
+        : { original_plan: chosenPlan },
     });
 
     // Notify admins about new submission

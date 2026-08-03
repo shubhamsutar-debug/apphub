@@ -11,7 +11,8 @@ export const appSubmissionSchema = z.object({
   support_email: z.string().email("Enter a valid email").optional().or(z.literal("")),
   tags: z.string().optional(),
   package_name: z.string().optional(),
-  publishing_plan: z.enum(["basic", "priority", "featured"]),
+  // "starter" = ₹5 plan — maps to "basic" in DB since Postgres ENUM only has basic/priority/featured
+  publishing_plan: z.enum(["starter", "basic", "priority", "featured"]),
 });
 
 export const reviewSchema = z.object({
