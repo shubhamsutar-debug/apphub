@@ -61,7 +61,7 @@ export function SubmitPaymentModal({
       name: "Starter",
       priceNumber: 5,
       displayPrice: "₹5",
-      badge: "🎁 Try Now",
+      badge: "🔥 Offer",
       icon: <Star className="h-5 w-5" />,
       features: ["Standard listing", "24–72h review", "App analytics", "Community support"],
       highlight: false,
