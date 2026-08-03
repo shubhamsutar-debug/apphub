@@ -136,7 +136,7 @@ export function SubmitPaymentModal({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative w-full max-w-2xl rounded-3xl border border-white/10 bg-night-900 p-6 shadow-2xl sm:p-8"
+        className="relative w-full max-w-3xl rounded-3xl border border-white/10 bg-night-900 p-6 shadow-2xl sm:p-8"
       >
         {/* Close Button */}
         {step !== "done" && (
@@ -167,7 +167,7 @@ export function SubmitPaymentModal({
                 </p>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid grid-cols-3 gap-3">
                 {plans.map((plan) => (
                   <button
                     key={plan.id}
