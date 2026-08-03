@@ -57,7 +57,7 @@ export function SubmitPaymentModal({
 
   const plans: Plan[] = [
     {
-      id: "basic",
+      id: "starter",
       name: "Starter",
       priceNumber: 5,
       displayPrice: "₹5",
