@@ -94,7 +94,9 @@ function StatCard({ label, value, suffix, inView }: { label: string; value: numb
   );
 }
 
-export function StatsSection() {
+export function StatsSection({ stats }: {
+  stats?: { totalApps: number; totalDownloads: number; totalDevelopers: number; totalUsers: number }
+}) {
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -102,14 +104,17 @@ export function StatsSection() {
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
+
+  const s = stats ?? { totalApps: 0, totalDownloads: 0, totalDevelopers: 0, totalUsers: 0 };
+
   return (
     <section className="section-container py-20" ref={ref}>
-      <SectionHeader title="Trusted by Thousands" subtitle="Join India's fastest-growing Android app marketplace" />
+      <SectionHeader title="Growing Every Day" subtitle="Real numbers from India's Android app marketplace" />
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Total Apps"     value={2500}    suffix="+" inView={inView} />
-        <StatCard label="Downloads"      value={1200000} suffix="+" inView={inView} />
-        <StatCard label="Developers"     value={850}     suffix="+" inView={inView} />
-        <StatCard label="Active Users"   value={50000}   suffix="+" inView={inView} />
+        <StatCard label="Published Apps"  value={s.totalApps}       suffix="" inView={inView} />
+        <StatCard label="Downloads"       value={s.totalDownloads}  suffix="" inView={inView} />
+        <StatCard label="Developers"      value={s.totalDevelopers} suffix="" inView={inView} />
+        <StatCard label="Users"           value={s.totalUsers}      suffix="" inView={inView} />
       </div>
     </section>
   );

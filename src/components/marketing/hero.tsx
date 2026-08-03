@@ -22,14 +22,26 @@ const FLOATING_ICONS = [
   { emoji: "🛒", x: "91%", y: "44%", delay: 0.8 },
 ];
 
-const STATS = [
-  { label: "Total Apps",     value: "2,500+",  icon: Package   },
-  { label: "Downloads",      value: "1.2M+",   icon: Download  },
-  { label: "Developers",     value: "850+",    icon: Users     },
-  { label: "Active Users",   value: "50K+",    icon: TrendingUp},
-];
+interface HomeStats {
+  totalApps: number;
+  totalDownloads: number;
+  totalDevelopers: number;
+  totalUsers: number;
+}
 
-export function Hero() {
+function formatStat(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M+`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(n >= 10_000 ? 0 : 1)}K+`;
+  return n > 0 ? `${n}+` : "0";
+}
+
+export function Hero({ stats }: { stats?: HomeStats }) {
+  const STATS = [
+    { label: "Published Apps", value: formatStat(stats?.totalApps ?? 0),       icon: Package    },
+    { label: "Downloads",      value: formatStat(stats?.totalDownloads ?? 0),  icon: Download   },
+    { label: "Developers",     value: formatStat(stats?.totalDevelopers ?? 0), icon: Users      },
+    { label: "Registered Users", value: formatStat(stats?.totalUsers ?? 0),    icon: TrendingUp },
+  ];
   return (
     <section className="relative overflow-hidden">
       {/* Background layers */}
