@@ -318,20 +318,17 @@ export function AppSubmissionForm({ categories, isAdmin = false }: AppSubmission
     amountPaise: number;
     screenshotUrl: string;
   }) => {
-    setChosenPlan(payload.plan);
-    setChosenAmountPaise(payload.amountPaise);
-    setPaymentScreenshotUrl(payload.screenshotUrl);
+    if (!formRef.current) return;
 
-    // Wait for state to sync and trigger form submission
-    setTimeout(() => {
-      if (formRef.current) {
-        const formData = new FormData(formRef.current);
-        formData.set("publishing_plan", payload.plan);
-        formData.set("payment_amount_paise", payload.amountPaise.toString());
-        formData.set("payment_screenshot_url", payload.screenshotUrl);
-        formAction(formData);
-      }
-    }, 100);
+    const formData = new FormData(formRef.current);
+    formData.set("publishing_plan", payload.plan);
+    formData.set("payment_amount_paise", payload.amountPaise.toString());
+    formData.set("payment_screenshot_url", payload.screenshotUrl);
+
+    // Trigger the server action and await result
+    await formAction(formData);
+    // formAction resolves after server action returns (success or error)
+    // The modal checks state.error to handle errors — on success it shows "done"
   };
 
   return (
@@ -525,6 +522,7 @@ export function AppSubmissionForm({ categories, isAdmin = false }: AppSubmission
         onFinalSubmit={handleFinalSubmitFromModal}
         isSubmitting={pending}
         submitError={state.error ?? ""}
+        submitSuccess={!!state.success}
       />
     </>
   );

@@ -21,6 +21,7 @@ interface SubmitPaymentModalProps {
   }) => Promise<void>;
   isSubmitting: boolean;
   submitError: string;
+  submitSuccess?: boolean;
 }
 
 interface Plan {
@@ -44,8 +45,14 @@ export function SubmitPaymentModal({
   onFinalSubmit,
   isSubmitting,
   submitError,
+  submitSuccess,
 }: SubmitPaymentModalProps) {
   const [step, setStep] = useState<"select" | "pay" | "upload" | "done">("select");
+
+  // When server action returns success, advance to done step
+  if (submitSuccess && step !== "done") {
+    setStep("done");
+  }
   const [selectedPlanId, setSelectedPlanId] = useState<Plan["id"]>("basic");
   const [copied, setCopied] = useState(false);
   const [screenshotUrl, setScreenshotUrl] = useState("");

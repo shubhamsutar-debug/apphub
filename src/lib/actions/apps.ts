@@ -193,7 +193,8 @@ export async function submitAppAction(
   }
 
   revalidatePath("/dashboard/developer/apps");
-  redirect(`/dashboard/developer/apps`);
+  // Return success instead of redirect — client handles navigation after showing success screen
+  return { success: "App submitted successfully", appId: app.id };
 }
 
 export async function updateAppAction(
