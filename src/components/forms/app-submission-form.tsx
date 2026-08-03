@@ -330,7 +330,7 @@ export function AppSubmissionForm({ categories, isAdmin = false }: AppSubmission
 
   return (
     <>
-      <form ref={formRef} action={formAction} className="space-y-8">
+      <form ref={formRef} onSubmit={(e) => e.preventDefault()} className="space-y-8">
         {/* Hidden fields for uploaded files */}
         <input type="hidden" name="package_name" value={packageName} />
         <input type="hidden" name="apk_url" value={apkUrl} />

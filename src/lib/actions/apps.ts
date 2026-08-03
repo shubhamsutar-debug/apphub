@@ -419,28 +419,44 @@ export async function deleteAppAction(appId: string): Promise<AppActionState> {
   const user = await getCurrentUser();
   if (!user) return { error: "Not authenticated" };
 
-  // Use adminClient to bypass RLS on delete
   const adminClient = createAdminClient();
 
-  // Verify ownership before deleting
-  const supabase = await createClient();
-  const { data: dev } = await supabase.from("developers").select("id").eq("user_id", user.id).single();
+  // Verify ownership — developer can only delete their own apps; admin can delete any
+  if (user.profile.role !== "admin") {
+    const supabase = await createClient();
+    const { data: dev } = await supabase
+      .from("developers")
+      .select("id")
+      .eq("user_id", user.id)
+      .single();
 
-  if (!dev && user.profile.role !== "admin") return { error: "Not authorized" };
+    if (!dev) return { error: "Developer profile not found" };
 
-  // Delete related records first
-  await adminClient.from("application_versions").delete().eq("application_id", appId);
-  await adminClient.from("application_screenshots").delete().eq("application_id", appId);
-  await adminClient.from("reviews").delete().eq("application_id", appId);
-  await adminClient.from("favorites").delete().eq("application_id", appId);
+    const { data: app } = await adminClient
+      .from("applications")
+      .select("id")
+      .eq("id", appId)
+      .eq("developer_id", dev.id)
+      .single();
+
+    if (!app) return { error: "App not found or not yours" };
+  }
+
+  // Delete in correct order to avoid FK constraint errors
   await adminClient.from("downloads").delete().eq("application_id", appId);
+  await adminClient.from("favorites").delete().eq("application_id", appId);
+  await adminClient.from("reviews").delete().eq("application_id", appId);
+  await adminClient.from("application_screenshots").delete().eq("application_id", appId);
+  await adminClient.from("application_versions").delete().eq("application_id", appId);
+  await adminClient.from("payments").update({ application_id: null }).eq("application_id", appId);
 
   const { error } = await adminClient.from("applications").delete().eq("id", appId);
 
-  if (error) return { error: error.message };
+  if (error) return { error: `Delete failed: ${error.message}` };
 
   revalidatePath("/dashboard/developer/apps");
-  return { success: "App deleted" };
+  revalidatePath("/dashboard/admin/apps");
+  return { success: "App deleted successfully" };
 }
 
 export async function createDeveloperProfileAction(
