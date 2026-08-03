@@ -52,8 +52,6 @@ const TESTIMONIALS = [
     text: "We launched our startup app on AppHub first. The publishing fee is so affordable compared to other platforms. Our app hit 10K downloads in the first month." },
   { name: "Anjali Patel",  role: "App User",          avatar: "AP", rating: 5,
     text: "I love the curated selection of apps on AppHub. Every app I've installed works great and the reviews are genuine. Best Indian app marketplace!" },
-  { name: "Suresh Kumar",  role: "Indie Developer",   avatar: "SK", rating: 4,
-    text: "The developer dashboard is clean and gives me all the analytics I need. AppHub is the best place for indie developers to get discovered." },
 ];
 
 const FAQS = [
@@ -377,7 +375,7 @@ export function TestimonialsSection() {
   return (
     <section className="section-container py-20">
       <SectionHeader title="Loved by Developers & Users" subtitle="What people say about AppHub" />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {TESTIMONIALS.map((t, i) => (
           <motion.div key={t.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
